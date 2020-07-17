@@ -1,0 +1,24 @@
+{
+  "name": "coupangpartners",
+  "version": "1.0.0",
+  "description": "coupangpartners",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dosanHoon/coupangpartners.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dosanHoon/coupangpartners/issues"
+  },
+  "homepage": "https://github.com/dosanHoon/coupangpartners#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "crypto": "^1.0.1",
+    "moment": "^2.27.0"
+  }
+}
