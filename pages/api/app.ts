@@ -1,6 +1,6 @@
-const axios = require("axios");
-const { generateHmac } = require("./hmacGenerator");
-const { ACCESS_KEY, SECRET_KEY } = require("./keys");
+import axios from "axios";
+import { generateHmac } from "./hmacGenerator";
+import { ACCESS_KEY, SECRET_KEY } from "../keys";
 
 const REQUEST_METHOD = "POST";
 const DOMAIN = "https://api-gateway.coupang.com";
