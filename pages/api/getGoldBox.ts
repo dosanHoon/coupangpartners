@@ -4,7 +4,7 @@ export default async (req, res) => {
   try {
     const { data } = await coupang(
       GET,
-      "/products/bestcategories/1016?subId=autotest"
+      "/products/goldbox?subId=autotest"
     );
     res.status(200).json({ returnMessage: "성공", returnCode: 0, data });
   } catch (e) {
