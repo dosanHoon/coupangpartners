@@ -39,6 +39,7 @@ export default function ({ rows }) {
               <TableCell component="th" scope="row">
                 <a href={row.productUrl}>
                   <img
+                    width="300"
                     src={row.productImage}
                     alt={row.productName}
                     className={classes.img}
