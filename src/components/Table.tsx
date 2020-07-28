@@ -75,16 +75,12 @@ const TaebleForHtml = ({ rows }) => {
             <td>
               <a href={row.productUrl}>
                 <p>
-                  <img
-                    width="300"
-                    src={row.productImage}
-                    alt={row.productName}
-                  />
+                  <img src={row.productImage} alt={row.productName} />
                 </p>
                 <h2>{row.productName}</h2>
               </a>
             </td>
-            <td className="price">{`${row.productPrice.toLocaleString()} 원`}</td>
+            <td>{`${row.productPrice.toLocaleString()} 원`}</td>
           </tr>
         ))}
       </tbody>

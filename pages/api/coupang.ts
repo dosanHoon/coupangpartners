@@ -21,8 +21,10 @@ export default async function (REQUEST_METHOD, URL) {
       headers: { Authorization: authorization },
       // data: REQUEST,
     });
+    // console.log("response", response);
+
     return response.data;
   } catch (err) {
-    console.error(err.response.data);
+    console.log("err", err);
   }
 }

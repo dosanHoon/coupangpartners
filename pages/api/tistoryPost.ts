@@ -1,15 +1,21 @@
 import puppeteer from "puppeteer";
+import KEYS from "../../keys";
 
 const tistoryPost = async (req, res) => {
-  const browser = await puppeteer.launch({ headless: false });
   try {
+    res.status(200).json({ returnMessage: "성공", returnCode: 0 });
+    const browser = await puppeteer.launch({ headless: false });
     const postdata = req.body.postdata;
-    const title = req.body.title;
+    const title = req.body.postitle;
+    console.log("req title", title);
+    console.log("req.body", req.body);
     const page = await browser.newPage();
     await page.goto(
       `https://autosellpost.tistory.com/manage/newpost/?type=post&returnURL=%2Fmanage%2Fposts%2F`
     );
     // 네이버 로그인
+    await page.type("#loginId", KEYS.ID, { delay: 100 });
+    await page.type("#loginPw", KEYS.PASSWORD, { delay: 100 });
     await page.click('[type="submit"]');
     await page.waitFor(".textarea_tit");
     await page.waitFor("#mceu_18-open");
@@ -40,12 +46,10 @@ const tistoryPost = async (req, res) => {
     await page.waitFor("#open20");
     await page.click("#open20");
     await page.click('[type="submit"]');
-    res.status(200).json({ returnMessage: "성공", returnCode: 0 });
+    // await browser.close();
   } catch (e) {
     console.log("tistroy error=============", e);
-  } finally {
-    await browser.close();
-    res.status(200).json({ returnMessage: "성공", returnCode: 0 });
+    res.status(200).json({ returnMessage: "실패", returnCode: 0 });
   }
 };
 
