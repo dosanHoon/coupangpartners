@@ -1,8 +1,6 @@
 import coupang from "./coupang";
 const GET = "GET";
 export default async (req, res) => {
-  console.log("req.query", req.query);
-  console.log("req.query", req.query.keyword);
   try {
     const { data } = await coupang(
       GET,

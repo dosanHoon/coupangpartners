@@ -7,8 +7,7 @@ const tistoryPost = async (req, res) => {
     const browser = await puppeteer.launch({ headless: false });
     const postdata = req.body.postdata;
     const title = req.body.postitle;
-    console.log("req title", title);
-    console.log("req.body", req.body);
+    
     const page = await browser.newPage();
     await page.goto(
       `https://autosellpost.tistory.com/manage/newpost/?type=post&returnURL=%2Fmanage%2Fposts%2F`
