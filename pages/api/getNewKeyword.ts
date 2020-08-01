@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 
 export default async (req, res) => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   try {
     const paramCategory = req.query.category;
     console.log("paramCategory", paramCategory);
@@ -74,7 +74,7 @@ export default async (req, res) => {
             compition: keyword.querySelector("td:nth-child(6) > a").innerText,
           }))
       );
-      console.log("keywords", keywords);
+      // console.log("keywords", keywords);
     } else {
       keywords = [];
     }
@@ -83,6 +83,7 @@ export default async (req, res) => {
     await browser.close();
 
     res.json({ returnMessage: "성공", returnCode: 0, data: keywords });
+    return { keywords };
   } catch (e) {
     await browser.close();
     console.log("catch 에러 입니다.", e);

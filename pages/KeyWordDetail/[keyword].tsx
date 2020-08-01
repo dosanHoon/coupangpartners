@@ -62,8 +62,10 @@ export default function KeyWordDetail() {
   const [googleImgs, setGoogleImgs] = React.useState([]);
 
   React.useEffect(() => {
-    getReviews(keyword);
-    getGoogleResource(keyword);
+    if (keyword) {
+      getReviews(keyword);
+      getGoogleResource(keyword);
+    }
   }, [keyword]);
 
   const getGoogleResource = (keyword) => {

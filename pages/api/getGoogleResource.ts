@@ -67,6 +67,7 @@ export default async (req, res) => {
       returnCode: 0,
       imgs,
     });
+    return { imgs };
   } catch (e) {
     await browser.close();
     console.log("catch 에러 입니다.", e);

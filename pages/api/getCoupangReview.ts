@@ -74,6 +74,7 @@ export default async (req, res) => {
       firstProductLink,
       coupanglink,
     });
+    return { reviews, firstProductLink, coupanglink, productTitle };
   } catch (e) {
     await browser.close();
     console.log("catch 에러 입니다.", e);
