@@ -18,41 +18,19 @@ const useStyles = makeStyles({
   },
 });
 
-export default function ({ rows }) {
+export default function ({ headCell, rows }) {
   const classes = useStyles();
   return (
     <TableContainer component={Paper}>
       <Table className={classes.table} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>순위</TableCell>
-            <TableCell align="right">이름</TableCell>
-            <TableCell align="right">가격</TableCell>
+            {headCell.map((cell) => (
+              <TableCell>{cell}</TableCell>
+            ))}
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row, i) => (
-            <TableRow key={row.productName}>
-              <TableCell component="th" scope="row">
-                {`${i + 1} 위`}
-              </TableCell>
-              <TableCell component="th" scope="row">
-                <a href={row.productUrl}>
-                  <p>
-                    <img
-                      width="300"
-                      src={row.productImage}
-                      alt={row.productName}
-                      className={classes.img}
-                    />
-                  </p>
-                  <p>{row.productName}</p>
-                </a>
-              </TableCell>
-              <TableCell align="right">{row.productPrice}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        <TableBody>{rows}</TableBody>
       </Table>
     </TableContainer>
   );

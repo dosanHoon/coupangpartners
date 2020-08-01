@@ -3,63 +3,77 @@ import puppeteer from "puppeteer";
 export default async (req, res) => {
   const browser = await puppeteer.launch({ headless: false });
   try {
-    const paramCategory = req.query.category;
-    console.log("paramCategory", paramCategory);
+    const search = req.query.search;
+    console.log("search", search);
     const page = await browser.newPage();
     await page.setViewport({
       width: 1920,
       height: 1080,
     });
-    await page.goto(`https://www.itemscout.io/category`);
 
-    const categoryBtn = await page.$(
-      "#container > div.main-container > table:nth-child(1) > tr > td.options > div > div.dropdown-container > div:nth-child(1) > span"
+    const coupanglink = `https://www.coupang.com/np/search?q=${search}`;
+    await page.goto(coupanglink);
+    await page.waitFor("#productList li:not(.search-product__ad-badge)");
+
+    const firstProductLink = await page.$eval(
+      "#productList li:not(.search-product__ad-badge)",
+      (product) => product.querySelector("a").href
     );
-
-    await categoryBtn.click();
-    await page.waitFor(1000);
-
-    const categorys = await page.$$eval(
-      "label.itemscout-dropdown-item",
-      (labels) => {
-        console.log("labels", labels);
-        return labels.map((label, i) => {
-          return {
-            label: label.innerText,
-            i,
-          };
-        });
-      }
+    console.log("firstProductLink", firstProductLink);
+    await page.goto(firstProductLink);
+    await page.waitForNavigation();
+    await page.waitFor("#contents h2");
+    const productTitle = await page.$eval(
+      "#contents h2",
+      (title) => title.innerText
     );
+    console.log("productTitle", productTitle);
 
-    console.log("categorys", categorys);
+    await page.evaluate(() => {
+      document.documentElement.scrollTop += 2000;
+    });
+    await page.waitFor(2000);
 
-    const currentCategory = categorys.find(
-      ({ label }) => paramCategory === label
-    );
-    let keywords = [];
-    if (currentCategory) {
-      const selectLabel = await page.$$("label.itemscout-dropdown-item");
-      console.log("selectLabel",selectLabel)
-      console.log("currentCategory",currentCategory.i)
-      selectLabel[currentCategory.i].click();
-
-      keywords = await page.$$eval(
-        "#keyword-table-scroll-wrapper > table > tbody > tr",
-        (keywords) =>
-          keywords.map((keyword, i) => ({
-            keyword: keyword.querySelector("td:nth-child(3) > a > label")
-              .innerText,
-          }))
-      );
-    } else {
-      keywords = [];
-    }
+    await page.waitFor("#btfTab > ul.tab-titles > li:nth-child(2)");
+    const reviewBtn = await page.$("#btfTab > ul.tab-titles > li:nth-child(2)");
+    await reviewBtn.click();
 
     await page.waitFor(2000);
+    const reviews = await page.$$eval(
+      "section.js_reviewArticleListContainer > article",
+      (articles) => {
+        console.log("labels", articles);
+        return (
+          articles &&
+          articles.map((article, i) => {
+            const imgs = article.querySelector(
+              ".sdp-review__article__list__attachment"
+            );
+            const text = article.querySelector(
+              ".sdp-review__article__list__review"
+            );
+            return {
+              imgs: imgs ? imgs.outerHTML : "",
+              text: text ? text.outerHTML : "",
+              i,
+            };
+          })
+        );
+      }
+    );
+    // console.log("reviews", reviews);
+
+    await page.waitFor(1000);
     await browser.close();
 
-    res.json({ returnMessage: "성공", returnCode: 0, data: keywords });
+    res.json({
+      returnMessage: "성공",
+      returnCode: 0,
+      productTitle,
+      reviews,
+      firstProductLink,
+      coupanglink,
+    });
   } catch (e) {
     await browser.close();
     console.log("catch 에러 입니다.", e);

@@ -10,44 +10,68 @@ export default async (req, res) => {
       width: 1920,
       height: 1080,
     });
+    const CATEGORYDROPDOWN =
+      "#container > div.main-container > table > tr > td.options > div > div.dropdown-container > div:nth-child(1)";
+    const CATEGORYTRIGER =
+      "#container > div.main-container > table > tr > td.options > div > div.dropdown-container > div.bp-dropdown.itemscout-category-dropdown";
+    const CATEGORYLABEL = `${CATEGORYDROPDOWN} > div label`;
+
     await page.goto(`https://www.itemscout.io/category`);
 
-    const categoryBtn = await page.$(
-      "#container > div.main-container > table:nth-child(1) > tr > td.options > div > div.dropdown-container > div:nth-child(1) > span"
-    );
-
+    await page.waitFor(`${CATEGORYTRIGER}`);
+    const categoryBtn = await page.$(`${CATEGORYTRIGER}`);
     await categoryBtn.click();
-    await page.waitFor(1000);
 
-    const categorys = await page.$$eval(
-      "label.itemscout-dropdown-item",
-      (labels) => {
-        console.log("labels", labels);
-        return labels.map((label, i) => {
-          return {
-            label: label.innerText,
-            i,
-          };
-        });
-      }
-    );
+    await page.waitFor(1000);
+    await page.waitFor(`${CATEGORYDROPDOWN} > div`);
+
+    const categorys = await page.$$eval(CATEGORYLABEL, (labels) => {
+      console.log("labels", labels);
+      return labels.map((label, i) => {
+        return {
+          label: label.innerText,
+          i,
+        };
+      });
+    });
 
     const currentCategory = categorys.find(({ label }) => {
       return paramCategory === label;
     });
     let keywords = [];
-
+    console.log("currentCategory", currentCategory);
     if (currentCategory) {
-      const selectLabel = await page.$$("label.itemscout-dropdown-item");
+      const selectLabel = await page.$$(CATEGORYLABEL);
 
       await selectLabel[currentCategory.i].click();
+
+      await page.waitFor(
+        "#keyword-table-scroll-wrapper > table > tbody > tr td:nth-child(3) > a > label"
+      );
+
+      const sortBtnSelector =
+        "#keyword-table-header-scroll-wrapper > table > thead > tr > th:nth-child(7) > div.sort-buttons-container > div.sort-button.sort-asc";
+
+      await page.waitFor(sortBtnSelector);
+      const sortBtn = await page.$(sortBtnSelector);
+      console.log("sortBtn", sortBtn);
+      if (sortBtn) {
+        await sortBtn.click();
+        await page.waitFor(1000);
+        await sortBtn.click();
+      }
       await page.waitFor(2000);
+
       keywords = await page.$$eval(
         "#keyword-table-scroll-wrapper > table > tbody > tr",
         (keywords) =>
           keywords.map((keyword, i) => ({
             keyword: keyword.querySelector("td:nth-child(3) > a > label")
               .innerText,
+            searchcount: keyword.querySelector("td:nth-child(4) > a > label")
+              .innerText,
+            clickcount: keyword.querySelector("td:nth-child(7) > a").innerText,
+            compition: keyword.querySelector("td:nth-child(6) > a").innerText,
           }))
       );
       console.log("keywords", keywords);
