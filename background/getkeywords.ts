@@ -29,8 +29,12 @@ getNewKeyword({ query: { category: "패션잡화" } }, res).then(
         coupanglink,
         productTitle,
       } = await getReviews({ query: { search: keyword } }, res);
-      fs.writeFile(`./newtest/${keyword}/reviews.html`, reviews, (err) =>
-        console.log(err)
+      fs.writeFile(
+        `./newtest/${keyword}/reviews.html`,
+        reviews.reduce((html, { imgs, text }) => {
+          return html + imgs + text;
+        }, ""),
+        (err) => console.log(err)
       );
       fs.writeFile(
         `./newtest/${keyword}/link.txt`,
