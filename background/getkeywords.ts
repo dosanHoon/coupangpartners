@@ -1,6 +1,7 @@
 import getNewKeyword from "../pages/api/getNewKeyword";
 import getReviews from "../pages/api/getCoupangReview";
 import getGoogleResource from "../pages/api/getGoogleResource";
+import getNaverPost from "./getNaverPost";
 import fs from "fs";
 
 const res = {
@@ -50,6 +51,7 @@ getNewKeyword({ query: { category: "패션잡화" } }, res).then(
         `${imgs.join("\n")}`,
         (err) => console.log(err)
       );
+      await getNaverPost(keyword);
       return Promise.resolve();
     }, Promise.resolve());
   }
