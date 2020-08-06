@@ -11,18 +11,15 @@ const naverPost = async (postdata, title, id, pw) => {
     await page.type("#pw", pw, { delay: 100 });
     await page.click('[type="submit"]');
     await page.waitForNavigation();
+
     //제목 입력
-    console.log("title",title)
-    await page.mouse.click(401, 118);
+    await page.mouse.click(240, 118);
     await page.keyboard.type(title, { delay: 100 });
     //HTML 선택
-    // await page.evaluate(
-    //   `document.querySelector("#mainFrame").contentDocument.querySelector(".se2_to_html").click()`
-    // );
+    await page.evaluate(
+      `document.querySelector("#mainFrame").contentDocument.querySelector(".se2_to_html").click()`
+    );
     //포스트 입력
-    await page.mouse.click(1100, 626);
-    
-    await page.waitFor(1000)
     await page.mouse.click(132, 272);
     await page.keyboard.type(postdata, { delay: 100 });
 

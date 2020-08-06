@@ -90,15 +90,14 @@ const getCoupangDeepLink = async (productId) => {
 
 
 
-getCoupangBest(1016).then((data)=>{
+getCoupangBest(1015).then((data)=>{
   console.log("data",data)
   data.reduce(async(promise,{ productUrl, productImage,productId,productName }) => {
     await promise.then()
     const {reviews, productTitle} = await getCoupnagReview(productUrl)
     
     const surl = await getCoupangDeepLink( productId )
-    const imgSurl = await getSUrl( productImage )
-    const  htmlData = makeHtml(productTitle,surl,reviews,imgSurl)
+    const  htmlData = makeHtml(productTitle,surl,reviews,productImage)
     await naverPost(htmlData,productName,keys.NAVERID,keys.NAVERPW)
     return Promise.resolve()
   },Promise.resolve());
