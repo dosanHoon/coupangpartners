@@ -3,3 +3,4 @@ keys.js
 .next
 background/dist
 dist
+keys.ts

@@ -5,7 +5,7 @@ import KEYS from "../keys";
 const DOMAIN = "https://api-gateway.coupang.com";
 const BASEURL = "/v2/providers/affiliate_open_api/apis/openapi/v1";
 
-export default async function (REQUEST_METHOD, URL) {
+export default async function (REQUEST_METHOD, URL,BODY?) {
   const authorization = generateHmac(
     REQUEST_METHOD,
     BASEURL + URL,
@@ -19,7 +19,7 @@ export default async function (REQUEST_METHOD, URL) {
       method: REQUEST_METHOD,
       url: BASEURL + URL,
       headers: { Authorization: authorization },
-      // data: REQUEST,
+      data: BODY,
     });
     // console.log("response", response);
 

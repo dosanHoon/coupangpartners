@@ -1,0 +1,1 @@
+firstProductLink={https://www.coupang.com/vp/products/1754952112?itemId=2988636292&vendorItemId=70976948012&q=%ED%86%A0%EC%95%A4%ED%86%A0%EC%AA%BC%EB%A6%AC&itemsCount=36&searchId=acf985050ffd493cb1f0d42bac34554c&rank=0}, coupanglink={https://www.coupang.com/np/search?q=토앤토쪼리}, productTitle={타 스마일 남녀공용 플리플랍 쪼리}

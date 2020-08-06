@@ -1,5 +1,11 @@
 import coupang from "../utils/coupang";
 import getSUrl from "../utils/getSurl";
+import getCoupnagReview from "./getCoupangReview"
+import naverPost from "./naverPost"
+import keys from "../keys";
+import { kMaxLength } from "buffer";
+import makeHtml from "./makeHtml";
+
 const GET = "GET";
 
 // await getBest(1001, "여성패션");
@@ -63,8 +69,37 @@ const getCoupangBest = async (code) => {
   }
 };
 
-getSUrl(
-  "http://www.proviralad.com/event/landing/bro_news1.php?ADID=backtoss"
-).then((data) => {
-  console.log("Data", data);
-});
+const getCoupangDeepLink = async (productId) => {
+
+  try {
+    const { data } = await coupang(
+      "POST",
+      "/deeplink",
+      {
+        "coupangUrls": [
+          `https://www.coupang.com/vp/products/${productId}`
+        ]
+      }
+    );
+    return data[0].shortenUrl;
+  } catch (e) {
+    console.log("catch 에러 입니다.");
+  }
+};
+
+
+
+
+getCoupangBest(1016).then((data)=>{
+  console.log("data",data)
+  data.reduce(async(promise,{ productUrl, productImage,productId,productName }) => {
+    await promise.then()
+    const {reviews, productTitle} = await getCoupnagReview(productUrl)
+    
+    const surl = await getCoupangDeepLink( productId )
+    const imgSurl = await getSUrl( productImage )
+    const  htmlData = makeHtml(productTitle,surl,reviews,imgSurl)
+    await naverPost(htmlData,productName,keys.NAVERID,keys.NAVERPW)
+    return Promise.resolve()
+  },Promise.resolve());
+})
