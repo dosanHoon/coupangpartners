@@ -45,7 +45,7 @@ export default async function naverPost(keyword) {
       await fs.writeFile(
         `./newtest/${keyword}/${keyword}${postId}.txt`,
         `${postText}`,
-        (err) => console.log(err)
+        (err) => console.log("writeFile", err)
       );
       return Promise.resolve();
     }, Promise.resolve());

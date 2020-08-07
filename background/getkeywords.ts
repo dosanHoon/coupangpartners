@@ -13,8 +13,8 @@ const res = {
   },
 };
 
-getNewKeyword({ query: { category: "패션잡화" } }, res).then(
-  async (data: any) => {
+const scrapNew = (category) => {
+  getNewKeyword({ query: { category } }, res).then(async (data: any) => {
     console.log("getNewKeyword", data.keywords);
     const { keywords } = data;
     // const data = "파일 생성 테스트";
@@ -30,12 +30,8 @@ getNewKeyword({ query: { category: "패션잡화" } }, res).then(
         coupanglink,
         productTitle,
       } = await getReviews({ query: { search: keyword } }, res);
-      fs.writeFile(
-        `./newtest/${keyword}/reviews.html`,
-        reviews.reduce((html, { imgs, text }) => {
-          return html + imgs + text;
-        }, ""),
-        (err) => console.log(err)
+      fs.writeFile(`./newtest/${keyword}/reviews.html`, reviews, (err) =>
+        console.log(err)
       );
       fs.writeFile(
         `./newtest/${keyword}/link.txt`,
@@ -47,12 +43,17 @@ getNewKeyword({ query: { category: "패션잡화" } }, res).then(
         res
       );
       fs.writeFile(
-        `./newtest/${keyword}/imgs.txt`,
-        `${imgs.join("\n")}`,
+        `./newtest/${keyword}/imgs.html`,
+        imgs.map((src)=>`<img src=${src}/>`).join("\n"),
         (err) => console.log(err)
       );
+
       await getNaverPost(keyword);
+
       return Promise.resolve();
     }, Promise.resolve());
-  }
-);
+  });
+};
+
+
+scrapNew("디지털/가전")

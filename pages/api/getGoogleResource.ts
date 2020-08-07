@@ -29,15 +29,17 @@ export default async (req, res) => {
       try {
         await img.click();
         await page.waitFor(3000);
-        await page.waitFor(
-          "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img"
-        );
+        // await page.waitFor(
+        //   "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img"
+        // );
         const i = await page.$eval(
           "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img",
           (img) => img.src
         );
-
-        imgs.push(i);
+if(i){
+  imgs.push(i);
+}
+        
       } catch (e) {
         console.log("catch", e);
       }

@@ -1,7 +1,7 @@
 import puppeteer from "puppeteer";
 
 export default async (req, res) => {
-  const browser = await puppeteer.launch({ headless: true });
+  const browser = await puppeteer.launch({ headless: false });
   try {
     const paramCategory = req.query.category;
     console.log("paramCategory", paramCategory);
