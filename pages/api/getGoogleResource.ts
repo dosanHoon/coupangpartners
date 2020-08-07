@@ -12,7 +12,6 @@ export default async (req, res) => {
       height: 1080,
     });
 
-    await page.setViewport({ width: 1200, height: 1200 });
     await page.goto(`https://www.google.com/search?q=${search}`);
     await page.waitFor(2000);
     await page.waitFor(`#hdtb-msb-vis > div:nth-child(2) > a`);
