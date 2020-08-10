@@ -2,6 +2,7 @@ import coupang from "../utils/coupang";
 import getSUrl from "../utils/getSurl";
 import getCoupnagReview from "./getCoupangReview"
 import naverPost from "./naverPost"
+import tistoryPost from "./tistoryPost"
 import keys from "../keys";
 import { kMaxLength } from "buffer";
 import makeHtml from "./makeHtml";
@@ -90,7 +91,7 @@ const getCoupangDeepLink = async (productId) => {
 
 
 
-getCoupangBest(1015).then((data)=>{
+getCoupangBest(1013).then((data)=>{
   console.log("data",data)
   data.reduce(async(promise,{ productUrl, productImage,productId,productName }) => {
     await promise.then()
@@ -98,7 +99,9 @@ getCoupangBest(1015).then((data)=>{
     
     const surl = await getCoupangDeepLink( productId )
     const  htmlData = makeHtml(productTitle,surl,reviews,productImage)
-    await naverPost(htmlData,productName,keys.NAVERID,keys.NAVERPW)
+    // await naverPost(htmlData,productName,keys.NAVERID,keys.NAVERPW)
+    await tistoryPost(htmlData,productName)
+    
     return Promise.resolve()
   },Promise.resolve());
 })

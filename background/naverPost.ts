@@ -14,14 +14,14 @@ const naverPost = async (postdata, title, id, pw) => {
 
     //제목 입력
     await page.mouse.click(240, 118);
-    await page.keyboard.type(title, { delay: 100 });
+    await page.keyboard.type(title);
     //HTML 선택
     await page.evaluate(
       `document.querySelector("#mainFrame").contentDocument.querySelector(".se2_to_html").click()`
     );
     //포스트 입력
     await page.mouse.click(132, 272);
-    await page.keyboard.type(postdata, { delay: 100 });
+    await page.keyboard.type(postdata);
 
     await page.evaluate(
       `document.querySelector("#mainFrame").contentDocument.querySelector("#btn_submit").click()`

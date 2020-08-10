@@ -3,7 +3,6 @@ import puppeteer from "puppeteer";
 export default async (productUrl) => {
   const browser = await puppeteer.launch({ headless: false });
   try {
-
     const page = await browser.newPage();
     await page.setViewport({
       width: 1920,
@@ -31,19 +30,36 @@ export default async (productUrl) => {
     const reviews = await page.$$eval(
       "section.js_reviewArticleListContainer > article",
       (articles) => {
-        console.log("labels", articles);
         return (
           articles &&
           articles.map((article, i) => {
-            const imgs = article.querySelector(
-              ".sdp-review__article__list__attachment"
+            const imgsTag = article.querySelectorAll(
+              ".sdp-review__article__list__attachment img"
             );
+            const title = article.querySelector(
+              ".sdp-review__article__list__headline"
+            );
+
+            const imgsHTML = [];
+            if (imgsTag) {
+              imgsTag.forEach((img) => {
+                imgsHTML.push(
+                  `<img src=${img.dataset.originPath} style="margin:10px;"/>
+                  `
+                );
+              });
+            }
+
+            const imgs = `<div style="padding:30px auto;">${imgsHTML.join(
+              ""
+            )}</div>`;
             const text = article.querySelector(
               ".sdp-review__article__list__review"
             );
             return {
-              imgs: imgs ? imgs.outerHTML : "",
-              text: text ? text.outerHTML : "",
+              imgs: imgs,
+              title: title ? title.innerText : "",
+              text: text ? text.innerText.split("\n").join("<br/>") : "",
               i,
             };
           })
@@ -55,11 +71,9 @@ export default async (productUrl) => {
     await page.waitFor(1000);
     await browser.close();
 
-
     return { reviews, productTitle };
   } catch (e) {
     await browser.close();
     console.log("catch 에러 입니다.", e);
-    
   }
 };

@@ -1,1 +1,1 @@
-tsc -p ./tsconfig.json ./navergoupangpost.ts 
+tsc -p tsconfig.json && ./navergoupangpost.ts 
