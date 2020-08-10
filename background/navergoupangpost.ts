@@ -1,10 +1,11 @@
 import coupang from "../utils/coupang";
 import getSUrl from "../utils/getSurl";
-import getCoupnagReview from "./getCoupangReview"
-import naverPost from "./naverPost"
+import getCoupnagReview from "./getCoupangReview";
+import naverPost from "./naverPost";
 import keys from "../keys";
 import { kMaxLength } from "buffer";
 import makeHtml from "./makeHtml";
+import tistoryPost from "./tistoryPost";
 
 const GET = "GET";
 
@@ -70,35 +71,46 @@ const getCoupangBest = async (code) => {
 };
 
 const getCoupangDeepLink = async (productId) => {
-
   try {
-    const { data } = await coupang(
-      "POST",
-      "/deeplink",
-      {
-        "coupangUrls": [
-          `https://www.coupang.com/vp/products/${productId}`
-        ]
-      }
-    );
+    const { data } = await coupang("POST", "/deeplink", {
+      coupangUrls: [`https://www.coupang.com/vp/products/${productId}`],
+    });
     return data[0].shortenUrl;
   } catch (e) {
     console.log("catch 에러 입니다.");
   }
 };
 
+getCoupangBest(1015).then((data) => {
+  console.log("data", data);
+  data.reduce(
+    async (promise, { productUrl, productImage, productId, productName }) => {
+      await promise.then();
+      const { reviews, productTitle } = await getCoupnagReview(productUrl);
 
+      const surl = await getCoupangDeepLink(productId);
+      const htmlData = makeHtml(productTitle, surl, reviews, productImage);
+      // await naverPost(htmlData, productName, keys.NAVERID, keys.NAVERPW);
+      await tistoryPost(htmlData, productName);
+      return Promise.resolve();
+    },
+    Promise.resolve()
+  );
+});
 
+// async function postByUrl(productUrl) {
+//   const { reviews, productTitle } = await getCoupnagReview(productUrl);
 
-getCoupangBest(1015).then((data)=>{
-  console.log("data",data)
-  data.reduce(async(promise,{ productUrl, productImage,productId,productName }) => {
-    await promise.then()
-    const {reviews, productTitle} = await getCoupnagReview(productUrl)
-    
-    const surl = await getCoupangDeepLink( productId )
-    const  htmlData = makeHtml(productTitle,surl,reviews,productImage)
-    await naverPost(htmlData,productName,keys.NAVERID,keys.NAVERPW)
-    return Promise.resolve()
-  },Promise.resolve());
-})
+//   const surl = await getCoupangDeepLink("2555807");
+//   const htmlData = makeHtml(productTitle, surl, reviews, "");
+//   await naverPost(
+//     htmlData,
+//     "Now Foods 실리마린 밀크 시슬 추출물 300mg 베지 캡슐",
+//     keys.NAVERID,
+//     keys.NAVERPW
+//   );
+// }
+
+// postByUrl(
+//   "https://www.coupang.com/vp/products/2555807?itemId=2076854&isAddedCart="
+// );

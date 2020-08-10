@@ -11,12 +11,21 @@ export default async (productUrl) => {
     });
 
     await page.goto(productUrl);
-    await page.waitFor("#contents h2");
+    await page.waitFor(3000);
 
-    const productTitle = await page.$eval(
-      "#contents h2",
-      (title) => title.innerText
+    // await page.waitFor("#contents h2");
+
+    const pTitle = await page.$(
+      "#contents h2"
     );
+
+    let productTitle = ""
+    if(pTitle){
+       productTitle = await page.$eval(
+        "#contents h2",
+        (title) => title.innerText
+      );
+    }
 
     await page.evaluate(() => {
       document.documentElement.scrollTop += 2000;
