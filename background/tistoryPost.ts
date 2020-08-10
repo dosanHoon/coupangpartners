@@ -1,10 +1,9 @@
 import puppeteer from "puppeteer";
 import KEYS from "../keys";
 
-const tistoryPost = async (postdata, title) => {
+const tistoryPost = async (postdata, postitle) => {
   const browser = await puppeteer.launch({ headless: false });
   try {
-
     const page = await browser.newPage();
     await page.goto(
       `https://dodosans.tistory.com/manage/newpost/?type=post&returnURL=%2Fmanage%2Fposts%2F`
@@ -37,12 +36,11 @@ const tistoryPost = async (postdata, title) => {
         postdata +
         "<p>파트너스 활동을 통해 일정액의 수수료를 제공받을 수 있음</p>"
     );
-    await page.type(".textarea_tit", title, { delay: 10 });
+    await page.type(".textarea_tit", postitle, { delay: 10 });
     await page.click(".btn.btn-default");
     await page.waitFor("#open20");
     await page.click("#open20");
     await page.click('[type="submit"]');
-    
   } catch (e) {
     console.log("tistroy error=============", e);
   } finally {

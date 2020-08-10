@@ -2,7 +2,7 @@ import puppeteer from "puppeteer";
 import fs from "fs";
 
 export default async (req, res) => {
-  const browser = await puppeteer.launch({ headless: false });
+  const browser = await puppeteer.launch({ headless: true });
   try {
     const search = req.query.search;
     console.log("search", search);
@@ -19,37 +19,42 @@ export default async (req, res) => {
     btn.click();
 
     const IMAGE_SELECTOR = "#islrg > div.islrc > div";
-    await page.waitFor(2000);
-    await page.waitFor("#islrg > div.islrc");
-    const images = await page.$$(IMAGE_SELECTOR);
-    console.log("images", images[0]);
+    await page.waitFor(5000);
 
+    const imgwa = await page.$("#islrg > div.islrc");
     const imgs = [];
-    const getImg = async (img) => {
-      try {
-        await img.click();
-        await page.waitFor(3000);
-        // await page.waitFor(
-        //   "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img"
-        // );
-        const i = await page.$eval(
-          "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img",
-          (img) => img.src
-        );
-if(i){
-  imgs.push(i);
-}
-        
-      } catch (e) {
-        console.log("catch", e);
-      }
-    };
+    if(imgwa){
+      const images = await page.$$(IMAGE_SELECTOR);
 
-    await images.reduce(async (promise, img) => {
-      await promise.then();
-      await getImg(img);
-      return Promise.resolve();
-    }, Promise.resolve());
+      console.log("images", images[0]);
+  
+      
+      const getImg = async (img) => {
+        try {
+          await img.click();
+          await page.waitFor(3000);
+          // await page.waitFor(
+          //   "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img"
+          // );
+          const i = await page.$eval(
+            "#Sva75c > div > div > div.pxAole > div.tvh9oe.BIB1wf > c-wiz > div.OUZ5W > div.zjoqD > div > div.v4dQwb > a > img",
+            (img) => img.src
+          );
+          if (i) {
+            imgs.push(i);
+          }
+        } catch (e) {
+          console.log("catch", e);
+        }
+      };
+  
+      await images.reduce(async (promise, img) => {
+        await promise.then();
+        await getImg(img);
+        return Promise.resolve();
+      }, Promise.resolve());
+    }
+    
 
     // await imgs.reduce(async (promise, img) => {
     //   await promise.then();
