@@ -8,7 +8,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "naverpost": "tsc -p ./es6.tsconfig.json && ts-node navergoupangpost.ts",
+    "naverpost": "tsc -p ./es6.tsconfig.json && ts-node navergoupangpost.ts"
   },
   "repository": {
     "type": "git",

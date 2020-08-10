@@ -10,6 +10,8 @@ import {
   GridList,
   GridListTile,
   ListSubheader,
+  TextField,
+  Button,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -31,15 +33,35 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-export default function Home() {
+export default function coupangreview() {
   const classes = useStyles();
-  const [goldBoxList, setGoldBoxList] = React.useState([]);
+  const [producUrls, setProducUrls] = React.useState("");
 
-  React.useEffect(() => {
-    Axios.get(`/api/getNewKeyword?category="패션의류"`).then(({ data }) => {
-      console.log("data", data.data);
-    });
-  }, []);
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setProducUrls(event.target.value);
+  };
+
+  // React.useEffect(() => {
+  //   Axios.get(`/api/getNewKeyword?category="패션의류"`).then(({ data }) => {
+  //     console.log("data", data.data);
+  //   });
+  // }, []);
+
+  const _getCoupangReview = () => {
+    const reviews = [];
+    producUrls.split(" ").reduce(async (promise, url) => {
+      await promise;
+      const { data } = await Axios.get("/api/coupangreview?productUrl=" + url);
+      console.log("data", data);
+      reviews.push({
+        reviews: data.reviews,
+        productTitle: data.productTitle,
+      });
+      return Promise.resolve();
+    }, Promise.resolve());
+    console.log("reviews", reviews);
+    
+  };
 
   return (
     <div className="container">
@@ -48,28 +70,22 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container maxWidth="md">
-        <h1>쇼핑 인사이트 로그</h1>
-        <p>새로운 키워드 추천</p>
-
+        <h1>쿠팡 리뷰 추출기</h1>
         <main>
-          <div className={classes.root}></div>
+          <div className={classes.root}>
+            <TextField
+              label="URL 입력해라"
+              multiline
+              rowsMax={4}
+              value={producUrls}
+              onChange={handleChange}
+            />
+            <Button variant="contained" onClick={_getCoupangReview}>
+              조회 하기
+            </Button>
+          </div>
         </main>
       </Container>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
     </div>
   );
 }
