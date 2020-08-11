@@ -20,22 +20,7 @@ const tistoryPost = async (postdata, postitle) => {
 
     await page.waitFor("#editorContainer > div.html-editor");
 
-    await page.keyboard.type(
-      `<style>
-            td {
-              padding: 10px;
-              border: 1px solid grey;
-            }
-            td.rank {
-              min-width: 30px;
-            }
-            td.price {
-              padding: 10px;
-            }
-          </style>` +
-        postdata +
-        "<p>파트너스 활동을 통해 일정액의 수수료를 제공받을 수 있음</p>"
-    );
+    await page.keyboard.type(postdata);
     await page.type(".textarea_tit", postitle, { delay: 10 });
     await page.click(".btn.btn-default");
     await page.waitFor("#open20");

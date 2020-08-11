@@ -14,13 +14,11 @@ export default async (productUrl) => {
 
     // await page.waitFor("#contents h2");
 
-    const pTitle = await page.$(
-      "#contents h2"
-    );
+    const pTitle = await page.$("#contents h2");
 
-    let productTitle = ""
-    if(pTitle){
-       productTitle = await page.$eval(
+    let productTitle = "";
+    if (pTitle) {
+      productTitle = await page.$eval(
         "#contents h2",
         (title) => title.innerText
       );
@@ -53,13 +51,12 @@ export default async (productUrl) => {
             if (imgsTag) {
               imgsTag.forEach((img) => {
                 imgsHTML.push(
-                  `<img src=${img.dataset.originPath} style="margin:10px;"/>
-                  `
+                  `<img src=${img.dataset.originPath} style="margin:10px 10px 0  0; width:calc(49% - 10px); display:inline-block"/>`
                 );
               });
             }
 
-            const imgs = `<div style="padding:30px auto;">${imgsHTML.join(
+            const imgs = `<div style="padding:30px 0;">${imgsHTML.join(
               ""
             )}</div>`;
             const text = article.querySelector(
