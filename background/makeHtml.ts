@@ -3,7 +3,7 @@ export default function (productTitle, sUrl, reviews, imgSurl) {
 
 <h1>${productTitle}</h1>
 
-<p>안녕하세요. 생활 밀창형 리뷰어 데인 입니다.</p>
+<p>안녕하세요. 생활 밀착형 리뷰어 데인 입니다.</p>
 <br/>
 <br/>
 <p>오늘 소개 할 제품은 바로 ${productTitle} 입니다.</p>
@@ -29,7 +29,7 @@ ${
     <br/>
         ${imgs}
     <br/>
-    <div style="font-size:25px;line-height:31px;font-family:'nanum-gothic'">
+    <div style="font-size:20px;line-height:20px;font-family:'nanum-gothic'">
         <p>${text}</p>
         <br/>
     </div>
@@ -39,7 +39,9 @@ ${
 <br/>
 <br/>
 <br/>
-<a href="${sUrl}" target="_blank"><h2> >> ${productTitle} 바로 가기<< </h2></a>
+<h2>
+    <a href="${sUrl}" target="_blank"> >> ${productTitle} 바로 가기<< </a>
+</h2>    
 <br/>
 <br/>
 <br/>

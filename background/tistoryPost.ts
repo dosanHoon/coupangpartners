@@ -6,7 +6,7 @@ const tistoryPost = async (postdata, postitle) => {
   try {
     const page = await browser.newPage();
     await page.goto(
-      `https://dodosans.tistory.com/manage/newpost/?type=post&returnURL=%2Fmanage%2Fposts%2F`
+      `https://dane-style.tistory.com/manage/newpost/?type=post&returnURL=%2Fmanage%2Fposts%2F`
     );
     // 네이버 로그인
     await page.type("#loginId", KEYS.ID, { delay: 100 });
@@ -26,6 +26,7 @@ const tistoryPost = async (postdata, postitle) => {
     await page.waitFor("#open20");
     await page.click("#open20");
     await page.click('[type="submit"]');
+    await page.waitFor(5000);
   } catch (e) {
     console.log("tistroy error=============", e);
   } finally {

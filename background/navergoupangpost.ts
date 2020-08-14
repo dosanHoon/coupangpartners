@@ -75,6 +75,7 @@ const getCoupangDeepLink = async (productId) => {
   try {
     const { data } = await coupang("POST", "/deeplink", {
       coupangUrls: [`https://www.coupang.com/vp/products/${productId}`],
+      subId: "autotest",
     });
     return data[0].shortenUrl;
   } catch (e) {
@@ -82,7 +83,7 @@ const getCoupangDeepLink = async (productId) => {
   }
 };
 
-// getCoupangBest(1014).then((data) => {
+// getCoupangBest(1008).then((data) => {
 //   console.log("data", data);
 //   data.reduce(
 //     async (promise, { productUrl, productImage, productId, productName }) => {
@@ -91,8 +92,8 @@ const getCoupangDeepLink = async (productId) => {
 
 //       const surl = await getCoupangDeepLink(productId);
 //       const htmlData = makeHtml(productTitle, surl, reviews, productImage);
-//       // await naverPost(htmlData, productName, keys.NAVERID, keys.NAVERPW);
-//       await tistoryPost(htmlData, productTitle);
+//       await naverPost(htmlData, productName, keys.NAVERID, keys.NAVERPW);
+//       // await tistoryPost(htmlData, productTitle);
 //       return Promise.resolve();
 //     },
 //     Promise.resolve()
@@ -104,7 +105,8 @@ async function postByUrl(productUrl) {
   const urls = productUrl.split("/");
   const surl = await getCoupangDeepLink(urls[urls.length - 1]);
   const htmlData = makeHtml(productTitle, surl, reviews, "");
-  await naverPost(htmlData, productTitle, keys.NAVERID, keys.NAVERPW);
+  // await naverPost(htmlData, productTitle, keys.NAVERID, keys.NAVERPW);
+  await tistoryPost(htmlData, productTitle);
 }
 
-postByUrl("https://www.coupang.com/vp/products/169554834");
+postByUrl("https://www.coupang.com/vp/products/52804389");
