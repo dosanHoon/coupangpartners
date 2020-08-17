@@ -83,22 +83,22 @@ const getCoupangDeepLink = async (productId) => {
   }
 };
 
-// getCoupangBest(1008).then((data) => {
-//   console.log("data", data);
-//   data.reduce(
-//     async (promise, { productUrl, productImage, productId, productName }) => {
-//       await promise.then();
-//       const { reviews, productTitle } = await getCoupnagReview(productUrl);
+async function CoupangBest(code) {
+  const data = await getCoupangBest(code);
 
-//       const surl = await getCoupangDeepLink(productId);
-//       const htmlData = makeHtml(productTitle, surl, reviews, productImage);
-//       await naverPost(htmlData, productName, keys.NAVERID, keys.NAVERPW);
-//       // await tistoryPost(htmlData, productTitle);
-//       return Promise.resolve();
-//     },
-//     Promise.resolve()
-//   );
-// });
+  await data.reduce(
+    async (promise, { productUrl, productImage, productId, productName }) => {
+      await promise.then();
+      const { reviews, productTitle } = await getCoupnagReview(productUrl);
+
+      const surl = await getCoupangDeepLink(productId);
+      const htmlData = makeHtml(productTitle, surl, reviews, productImage);
+      await naverPost(htmlData, productName, keys.NAVERID, keys.NAVERPW);
+      return Promise.resolve();
+    },
+    Promise.resolve()
+  );
+}
 
 async function postByUrl(productUrl) {
   const { reviews, productTitle } = await getCoupnagReview(productUrl);
@@ -109,4 +109,14 @@ async function postByUrl(productUrl) {
   await tistoryPost(htmlData, productTitle);
 }
 
-postByUrl("https://www.coupang.com/vp/products/52804389");
+postByUrl("https://www.coupang.com/vp/products/1557956726");
+
+// (async function () {
+//   await CoupangBest(1012);
+//   await CoupangBest(1013);
+//   await CoupangBest(1014);
+//   await CoupangBest(1016);
+//   await CoupangBest(1024);
+//   await CoupangBest(1008);
+//   await CoupangBest(1010);
+// })();

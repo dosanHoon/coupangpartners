@@ -22,14 +22,25 @@ export default function (productTitle, sUrl, reviews, imgSurl) {
 <br/>
 ${
   reviews &&
-  reviews.map(({ imgs, text, title }) => {
+  reviews.map(({ imgs, text, title, stars, name }) => {
     return `
 <div style="margin:10px auto;">
     <h3>${title}</h3>
+    <p>쿠팡 리뷰</p>
+    <p>${name} 님</p>
+    <div style="    display: inline-block;
+    width: 89px;
+    height: 15px;
+    background: url(//img1a.coupangcdn.com/image/productreview/web/pdp/average/star_all_v2.png) 0 -271px no-repeat;">
+      <div style="${stars};
+      height: 15px;
+      background: url(//img1a.coupangcdn.com/image/productreview/web/pdp/average/star_all_v2.png) 0 -246px no-repeat;">
+      </div>
+    </div>
     <br/>
         ${imgs}
     <br/>
-    <div style="font-size:20px;line-height:20px;font-family:'nanum-gothic'">
+    <div>
         <p>${text}</p>
         <br/>
     </div>

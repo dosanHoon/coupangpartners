@@ -46,6 +46,12 @@ export default async (productUrl) => {
             const title = article.querySelector(
               ".sdp-review__article__list__headline"
             );
+            const name = article.querySelector(
+              ".sdp-review__article__list__info .sdp-review__article__list__info__user__name"
+            );
+            const stars = article.querySelector(
+              ".sdp-review__article__list__info .sdp-review__article__list__info__product-info__star-orange"
+            );
 
             const imgsHTML = [];
             if (imgsTag) {
@@ -56,7 +62,7 @@ export default async (productUrl) => {
               });
             }
 
-            const imgs = `<div style="padding:30px 0;">${imgsHTML.join(
+            const imgs = `<div style="padding:20px 0;">${imgsHTML.join(
               ""
             )}</div>`;
             const text = article.querySelector(
@@ -66,6 +72,8 @@ export default async (productUrl) => {
               imgs: imgs,
               title: title ? title.innerText : "",
               text: text ? text.innerText.split("\n").join("<br/>") : "",
+              name: name ? name.innerText : "",
+              stars:stars.getAttribute("style"),
               i,
             };
           })
