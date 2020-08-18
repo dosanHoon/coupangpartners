@@ -71,7 +71,7 @@ const getCoupangBest = async (code) => {
   }
 };
 
-const getCoupangDeepLink = async (productId) => {
+const getCoupangDeepLink = async (productId, subId) => {
   try {
     const { data } = await coupang("POST", "/deeplink", {
       coupangUrls: [`https://www.coupang.com/vp/products/${productId}`],
@@ -91,7 +91,7 @@ async function CoupangBest(code) {
       await promise.then();
       const { reviews, productTitle } = await getCoupnagReview(productUrl);
 
-      const surl = await getCoupangDeepLink(productId);
+      const surl = await getCoupangDeepLink(productId, "autotest");
       const htmlData = makeHtml(productTitle, surl, reviews, productImage);
       await naverPost(htmlData, productName, keys.NAVERID, keys.NAVERPW);
       return Promise.resolve();
@@ -103,13 +103,13 @@ async function CoupangBest(code) {
 async function postByUrl(productUrl) {
   const { reviews, productTitle } = await getCoupnagReview(productUrl);
   const urls = productUrl.split("/");
-  const surl = await getCoupangDeepLink(urls[urls.length - 1]);
+  const surl = await getCoupangDeepLink(urls[urls.length - 1], "itreviewblog");
   const htmlData = makeHtml(productTitle, surl, reviews, "");
   // await naverPost(htmlData, productTitle, keys.NAVERID, keys.NAVERPW);
   await tistoryPost(htmlData, productTitle);
 }
 
-postByUrl("https://www.coupang.com/vp/products/1557956726");
+postByUrl("https://www.coupang.com/vp/products/1910786533");
 
 // (async function () {
 //   await CoupangBest(1012);
