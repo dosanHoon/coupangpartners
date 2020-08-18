@@ -1,24 +1,16 @@
 export default function (productTitle, sUrl, reviews, imgSurl) {
   return `
-
 <h1>${productTitle}</h1>
-
 <p>안녕하세요. 생활 밀착형 리뷰어 데인 입니다.</p>
-<br/>
-<br/>
 <p>오늘 소개 할 제품은 바로 ${productTitle} 입니다.</p>
-<br/>
 <br/>
 <h2>
     <a href="${sUrl}" target="_blank"> >> ${productTitle} 바로 가기<< </a>
 </h2>    
 <br/>
-<br/>
 <img src="${imgSurl}" alt="${productTitle}"/>
 <br/>
-<br/>
 <h2>${productTitle} 리뷰</h2>
-<br/>
 <br/>
 ${
   reviews &&
@@ -32,7 +24,7 @@ ${
     width: 89px;
     height: 15px;
     background: url(//img1a.coupangcdn.com/image/productreview/web/pdp/average/star_all_v2.png) 0 -271px no-repeat;">
-      <div style="${stars};
+      <div style="${stars}
       height: 15px;
       background: url(//img1a.coupangcdn.com/image/productreview/web/pdp/average/star_all_v2.png) 0 -246px no-repeat;">
       </div>

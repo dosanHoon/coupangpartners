@@ -109,7 +109,7 @@ async function postByUrl(productUrl) {
   await tistoryPost(htmlData, productTitle);
 }
 
-postByUrl("https://www.coupang.com/vp/products/1910786533");
+postByUrl("https://www.coupang.com/vp/products/26249");
 
 // (async function () {
 //   await CoupangBest(1012);
