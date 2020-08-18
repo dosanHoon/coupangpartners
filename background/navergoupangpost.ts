@@ -75,7 +75,7 @@ const getCoupangDeepLink = async (productId, subId) => {
   try {
     const { data } = await coupang("POST", "/deeplink", {
       coupangUrls: [`https://www.coupang.com/vp/products/${productId}`],
-      subId: "autotest",
+      subId,
     });
     return data[0].shortenUrl;
   } catch (e) {
