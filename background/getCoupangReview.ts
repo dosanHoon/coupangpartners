@@ -46,40 +46,33 @@ export default async (productUrl) => {
         (title) => title.innerText
       );
     }
-    console.log("productTitle", productTitle);
+
+    const productThum = await page.$("#repImageContainer > img");
+    let productThumSrc = "";
+    if (productThum) {
+      productThumSrc = await page.$eval(
+        "#repImageContainer > img",
+        (img) => img.src
+      );
+    }
 
     await pageDown(page);
-    await page.screenshot({
-      path: `./pageDown1.jpg`,
-    });
     await page.waitFor(2000);
     const reviewBtn = await page.$("#btfTab ul.tab-titles li:nth-child(2)");
-    const propertyHandle = await reviewBtn.getProperty("innerText");
-    const propertyValue = await propertyHandle.jsonValue();
-    console.log("propertyValue", propertyValue);
-    
+    // const propertyHandle = await reviewBtn.getProperty("innerText");
+    // const propertyValue = await propertyHandle.jsonValue();
+
     await reviewBtn.click();
     await page.waitFor(2000);
-    await page.screenshot({
-      path: `./after.jpg`,
-    });
     pageDown(page);
     await page.waitFor(2000);
-    await page.screenshot({
-      path: `./scroll.jpg`,
-    });
 
-    await page.screenshot({
-      path: `./after2.jpg`,
-    });
-    console.log("get reviews");
     const reviews = await page.$$eval(
       "section.js_reviewArticleListContainer > article",
       (articles) => {
-        console.log("articles", articles);
         return (
           articles &&
-          articles.map((article, i) => {
+          articles.slice(0, 4).map((article, articleIndex) => {
             const imgsTag = article.querySelectorAll(
               ".sdp-review__article__list__attachment img"
             );
@@ -95,10 +88,12 @@ export default async (productUrl) => {
 
             const imgsHTML = [];
             if (imgsTag) {
-              imgsTag.forEach((img) => {
-                imgsHTML.push(
-                  `<img src=${img.dataset.originPath} style="margin:10px 10px 0  0; width:calc(49% - 10px); display:inline-block"/>`
-                );
+              imgsTag.forEach((img, i) => {
+                if (i < 4) {
+                  imgsHTML.push(
+                    `<img src=${img.dataset.originPath} style="margin:10px 10px 0  0; width:calc(49% - 10px); display:inline-block"/>`
+                  );
+                }
               });
             }
 
@@ -114,7 +109,7 @@ export default async (productUrl) => {
               text: text ? text.innerText.split("\n").join("<br/>") : "",
               name: name ? name.innerText : "",
               stars: stars.getAttribute("style"),
-              i,
+              i: articleIndex,
             };
           })
         );
@@ -125,7 +120,7 @@ export default async (productUrl) => {
     await page.waitFor(1000);
     await browser.close();
 
-    return { reviews, productTitle };
+    return { reviews, productTitle, productThumSrc };
   } catch (e) {
     await page.screenshot({
       path: `./error.jpg`,

@@ -6,7 +6,7 @@ const tistoryPost = async (postdata, postitle) => {
   try {
     const page = await browser.newPage();
     await page.goto(
-      `https://dane-style.tistory.com/manage/newpost/?type=post&returnURL=%2Fmanage%2Fposts%2F`
+      `https://dane-itview.tistory.com/manage/newpost/?type=post&returnURL=%2Fmanage%2Fposts%2F`
     );
     // 네이버 로그인
     await page.type("#loginId", KEYS.ID, { delay: 100 });

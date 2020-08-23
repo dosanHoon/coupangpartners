@@ -101,22 +101,25 @@ async function CoupangBest(code) {
 }
 
 async function postByUrl(productUrl) {
-  const { reviews, productTitle } = await getCoupnagReview(productUrl);
+  const { reviews, productTitle, productThumSrc } = await getCoupnagReview(
+    productUrl
+  );
   const urls = productUrl.split("/");
-  const surl = await getCoupangDeepLink(urls[urls.length - 1], "itreviewblog");
-  const htmlData = makeHtml(productTitle, surl, reviews, "");
-  // await naverPost(htmlData, productTitle, keys.NAVERID, keys.NAVERPW);
-  await tistoryPost(htmlData, productTitle);
+  const surl = await getCoupangDeepLink(urls[urls.length - 1], "autotest");
+  const htmlData = makeHtml(productTitle, surl, reviews, productThumSrc);
+  await naverPost(htmlData, productTitle, keys.NAVERID, keys.NAVERPW);
+  // await tistoryPost(htmlData, productTitle);
 }
 
-postByUrl("https://www.coupang.com/vp/products/26249");
-
-// (async function () {
-//   await CoupangBest(1012);
-//   await CoupangBest(1013);
-//   await CoupangBest(1014);
-//   await CoupangBest(1016);
-//   await CoupangBest(1024);
-//   await CoupangBest(1008);
-//   await CoupangBest(1010);
-// })();
+(async function () {
+  await postByUrl("https://www.coupang.com/vp/products/307113540");
+  //   await CoupangBest(1012);
+  //   await CoupangBest(1013);
+  //   await CoupangBest(1014);
+  //   await CoupangBest(1016);
+  //   await CoupangBest(1024);
+  //   await CoupangBest(1021);
+  //   await CoupangBest(1020);
+  //   await CoupangBest(1008);
+  //   await CoupangBest(1010);
+})();

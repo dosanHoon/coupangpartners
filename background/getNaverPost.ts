@@ -22,20 +22,16 @@ export default async function naverPost(keyword) {
         )
     );
 
-    console.log("post,", postLinks[0]);
-
     await postLinks.reduce(async (promise, link) => {
       await promise.then();
-      console.log("link", link);
       await page.goto(link);
       await page.waitFor(2000);
       const t = link.split("/");
       const postId = t.pop();
-      console.log("postId", postId);
+
       const postText = await page.$eval(
         "#mainFrame",
         (mainFrame, args) => {
-          console.log("===============    args", args);
           return mainFrame.contentDocument.querySelector(
             `#post-view${args[0]} > div`
           ).innerText;
