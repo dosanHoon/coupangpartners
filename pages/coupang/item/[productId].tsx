@@ -1,19 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import Axios from "axios";
-import DefaultTable from "../../src/components/Table";
-
+import { useRouter } from "next/router";
 import {
   Container,
   createStyles,
   makeStyles,
   Theme,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  TableRow,
-  TableCell,
   Grid,
   Paper,
 } from "@material-ui/core";
@@ -24,7 +17,6 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexWrap: "wrap",
       justifyContent: "space-around",
-      // overflow: "hidden",
       backgroundColor: theme.palette.background.paper,
       flexGrow: 1,
     },
@@ -32,10 +24,6 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
       textAlign: "center",
       color: theme.palette.text.secondary,
-    },
-    gridList: {
-      // width: 500,
-      // height: 450,
     },
     icon: {
       color: "rgba(255, 255, 255, 0.54)",
@@ -50,14 +38,13 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-import { useRouter } from "next/router";
-
 export default function KeyWordDetail() {
   const router = useRouter();
   const { productId } = router.query;
 
   const classes = useStyles();
   const [productTitle, setProductTitle] = React.useState("");
+  const [productThumSrc, setProductThumSrc] = React.useState("");
   const [reviews, setReviews] = React.useState([]);
 
   React.useEffect(() => {
@@ -68,9 +55,9 @@ export default function KeyWordDetail() {
 
   const getReviews = (productId) => {
     Axios.get(`/api/itemdetail?productId=${productId}`).then(({ data }) => {
-      console.log("reviews", reviews);
       setProductTitle(data.productTitle);
       setReviews(data.reviews);
+      setProductThumSrc(data.productThumSrc);
     });
   };
 
@@ -85,6 +72,7 @@ export default function KeyWordDetail() {
         <main>
           <div className={classes.root}></div>
           <h2>{productTitle}</h2>
+          <img src={productThumSrc} />
           <Grid container spacing={3}>
             {reviews &&
               reviews.map(({ imgs, text }) => {
@@ -100,24 +88,6 @@ export default function KeyWordDetail() {
           </Grid>
         </main>
       </Container>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        img {
-          max-width: 200px;
-          opacity: 1 !important;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
     </div>
   );
 }

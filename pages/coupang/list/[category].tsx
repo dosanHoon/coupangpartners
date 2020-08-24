@@ -62,23 +62,15 @@ export default function KeyWordDetail() {
   const [googleImgs, setGoogleImgs] = React.useState([]);
 
   React.useEffect(() => {
-    if (keyword) {
-      getReviews(keyword);
-      getGoogleResource(keyword);
+    if (category) {
+      getList(category);
     }
-  }, [keyword]);
+  }, [category]);
 
-  const getGoogleResource = (keyword) => {
-    Axios.get(`/api/getGoogleResource?search=${keyword}`).then(({ data }) => {
-      setGoogleImgs(data.imgs);
-    });
-  };
-
-  const getReviews = (keyword) => {
-    Axios.get(`/api/getCoupangReview?search=${keyword}`).then(({ data }) => {
+  const getList = (category) => {
+    Axios.get(`/api/itemlist?category=${category}`).then(({ data }) => {
       setProductTitle(data.productTitle);
       setReviews(data.reviews);
-      getGoogleResource(keyword);
     });
   };
 
@@ -89,7 +81,7 @@ export default function KeyWordDetail() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Container maxWidth="md">
-        <h1>키워드 디테일</h1>
+        <h1>상품 목록</h1>
         <main>
           <div className={classes.root}></div>
           <h2>{productTitle}</h2>

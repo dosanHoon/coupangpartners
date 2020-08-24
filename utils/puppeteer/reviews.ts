@@ -17,7 +17,6 @@ const options = {
 
 export default async function (productUrl) {
   const browser = await puppeteer.launch(options);
-  console.log(await browser.userAgent());
   const page = await browser.newPage();
   try {
     await page.setViewport({
