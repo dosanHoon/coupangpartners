@@ -44,9 +44,11 @@ export default function Home() {
         <h1>쇼핑 인사이트 로그</h1>
 
         <main>
-          <Button variant="contained" href="/coupangreview">쿠팡 리뷰 추출기</Button>
-          <Button variant="contained" color="primary">
-            Primary
+          <Button variant="contained" href="/coupangreview">
+            쿠팡 리뷰 추출기
+          </Button>
+          <Button variant="contained" href="/coupang/list" color="primary">
+            쿠팡 상품 목록
           </Button>
           <Button variant="contained" color="secondary">
             Secondary

@@ -112,14 +112,5 @@ async function postByUrl(productUrl) {
 }
 
 (async function () {
-  await postByUrl("https://www.coupang.com/vp/products/307113540");
-  //   await CoupangBest(1012);
-  //   await CoupangBest(1013);
-  //   await CoupangBest(1014);
-  //   await CoupangBest(1016);
-  //   await CoupangBest(1024);
-  //   await CoupangBest(1021);
-  //   await CoupangBest(1020);
-  //   await CoupangBest(1008);
-  //   await CoupangBest(1010);
+  await postByUrl("https://www.coupang.com/vp/products/313490630");
 })();
