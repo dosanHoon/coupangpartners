@@ -48,8 +48,11 @@ ${
         ${imgs}
     <br/>
     <div>
-        <p>${text}</p>
+        <p style="font-size:20px;">${text.substring(0, 100)}...</p>
         <br/>
+        <h4  style="text-align:center;">
+          <a href="${sUrl}" target="_blank"> >> 쿠팡 리뷰 마저 확인 가기 << </a>
+        </h4>    
     </div>
 <div>`;
   })

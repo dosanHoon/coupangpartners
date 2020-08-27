@@ -63,7 +63,7 @@ const getCoupangBest = async (code) => {
   try {
     const { data } = await coupang(
       GET,
-      `/products/bestcategories/${code}?subId=autotest&limit=10`
+      `/products/bestcategories/${code}?subId=autotest&limit=100`
     );
     return data;
   } catch (e) {
@@ -112,5 +112,28 @@ async function postByUrl(productUrl) {
 }
 
 (async function () {
-  await postByUrl("https://www.coupang.com/vp/products/313490630");
+  await CoupangBest(1001);
+  await CoupangBest(1002);
+  await CoupangBest(1003);
+  await CoupangBest(1004);
+  await CoupangBest(1005);
+  await CoupangBest(1006);
+  await CoupangBest(1007);
+  await CoupangBest(1008);
+  await CoupangBest(1010);
+  await CoupangBest(1011);
+  await CoupangBest(1012);
+  await CoupangBest(1013);
+  await CoupangBest(1014);
+  await CoupangBest(1015);
+  await CoupangBest(1016);
+  await CoupangBest(1017);
+  await CoupangBest(1018);
+  await CoupangBest(1019);
+  await CoupangBest(1020);
+  await CoupangBest(1021);
+  await CoupangBest(1024);
+  await CoupangBest(1025);
+  await CoupangBest(1026);
+  await CoupangBest(1029);
 })();
