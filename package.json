@@ -32,7 +32,7 @@
     "highlight.js": "^10.1.1",
     "i": "^0.3.6",
     "markdown": "^0.5.0",
-    "markdown-it": "^11.0.0",
+    "markdown-it": "^12.3.2",
     "mobx": "^5.15.4",
     "mobx-react": "^6.2.2",
     "moment": "^2.27.0",
