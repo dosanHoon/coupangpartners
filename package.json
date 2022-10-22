@@ -1,6 +1,7 @@
 {
   "name": "coupangpartners",
   "version": "1.0.0",
+  "type": "module",
   "description": "coupangpartners",
   "main": "index.js",
   "scripts": {
